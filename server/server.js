@@ -20,7 +20,9 @@ io.on('connection', (socket) => {
 	socket.on('createMessage', (message) => {
 		console.log('New message from client', message);
 
-		socket.emit('newMessage', {
+		// `socket.emit()` emits to only one connection, whereas
+		// `io.emit()` emits to every connections
+		io.emit('newMessage', {
 			...message,
 			createdAt: new Date().getTime()
 		});
