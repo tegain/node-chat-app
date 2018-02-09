@@ -15,10 +15,15 @@ const io = socketIO(server);
 app.use(express.static(publicPath));
 
 io.on('connection', (socket) => {
-	console.log('New user connected');
+	console.log('Connected to server.');
 
-	socket.on('disconnect', () => {
-		console.log('User disconnected');
+	socket.on('createMessage', (message) => {
+		console.log('New message from client', message);
+
+		socket.emit('newMessage', {
+			...message,
+			createdAt: new Date().getTime()
+		});
 	});
 });
 
