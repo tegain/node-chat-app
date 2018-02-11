@@ -22,16 +22,13 @@ io.on('connection', (socket) => {
 
 	socket.broadcast.emit('newMessage', generateMessage('Admin', 'A new user joined the chat.'));
 
-	socket.on('createMessage', (message) => {
+	socket.on('createMessage', (message, callback) => {
 		console.log('New message from client', message);
 
 		// `socket.emit()` emits to only one connection, whereas
 		// `io.emit()` emits to every connections
 		io.emit('newMessage', generateMessage(message.from, message.text));
-
-		// `socket.broadcast.emit()` emits an event
-		// to everyone but the current connection
-		// socket.broadcast.emit('newMessage', generateMessage(message.from, message.text));
+		callback('This is from server.');
 	});
 });
 

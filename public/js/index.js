@@ -7,16 +7,24 @@ socket.on('connect', () => {
 
 form.addEventListener('submit', (e) => {
 	e.preventDefault();
+	const msgInput = form.elements.namedItem('msgInput');
 
 	socket.emit('createMessage', {
 		from: 'user1',
-		text: form.elements.namedItem('msgInput').value
+		text: msgInput.value
+	}, (data) => {
+		console.log('Got it.', data);
+
+		msgInput.value = '';
 	});
 });
 
 socket.on('newMessage', (message) => {
 	console.log(`New message from ${message.from}:`);
 	console.log(message);
+	const newMessage = document.createElement('li');
+	newMessage.innerHTML = `[${message.from}] ${message.text}`;
+	document.querySelector('#messages-container').appendChild(newMessage);
 });
 
 socket.on('disconnect', () => {
