@@ -28,7 +28,7 @@ io.on('connection', (socket) => {
 		// `socket.emit()` emits to only one connection, whereas
 		// `io.emit()` emits to every connections
 		io.emit('newMessage', generateMessage(message.from, message.text));
-		callback('This is from server.');
+		callback();
 	});
 
 	socket.on('createLocationMessage', (coords) => {
